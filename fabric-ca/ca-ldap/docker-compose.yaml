@@ -1,7 +1,7 @@
 version: '2'
 services:
  fabric-ca-server:
-  image: hyperledger/fabric-ca:1.1.0
+  image: hyperledger/fabric-ca:1.2.0
   container_name: fabric-ca-server
   ports:
     - "7054:7054"
