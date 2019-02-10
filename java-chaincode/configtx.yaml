@@ -1,0 +1,52 @@
+Organizations:
+
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+
+        MSPDir: crypto-config/ordererOrganizations/mydomain.com/msp
+
+    - &Org1
+        Name: Org1MSP
+        ID: Org1MSP
+
+        MSPDir: crypto-config/peerOrganizations/org1.mydomain.com/msp
+
+        AnchorPeers:
+            - Host: peer0.org1.mydomain.com
+              Port: 7051
+Application: &ApplicationDefaults
+
+    Organizations:
+
+Orderer: &OrdererDefaults
+    OrdererType: solo
+    Addresses:
+        - orderer.mydomain.com:7050
+
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+    Kafka:
+        Brokers:
+            - 127.0.0.1:9092
+    Organizations:
+Profiles:
+
+    OneOrgOrdererGenesis:
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *Org1
+    OneOrgChannel:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org1
