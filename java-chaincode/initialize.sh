@@ -4,6 +4,9 @@ export FABRIC_CFG_PATH=${PWD}
 rm -fr config/*
 rm -fr crypto-config/*
 
+mkdir -p config
+mkdir -p crypto-config
+
 cryptogen generate --config=./crypto-config.yaml
 
 configtxgen -profile OneOrgOrdererGenesis -outputBlock ./config/genesis.block
